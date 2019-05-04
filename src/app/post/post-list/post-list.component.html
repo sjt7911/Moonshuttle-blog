@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col text-right">
+      <button class="btn btn-primary" routerLink="create-new-post">
+        <i class="fas fa-plus-circle"></i>
+        Create New Post
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!(posts && posts.length)" class="row">
+    <div class="col">
+      <div class="alert alert-info">
+        <i class="fas fa-exclamation-circle"></i>
+        There are not any posts yet!
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="posts && posts.length" class="row">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Content</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let post of posts">
+            <td>{{ post.title }}</td>
+            <td>{{ post.text }}</td>
+            <td>{{ post.createdAt }}</td>
+            <td>
+              <button class="btn btn-dark btn-sm mr-2">
+                <i class="fas fa-edit"></i>
+                Edit
+              </button>
+              <button class="btn btn-danger btn-sm"
+                      (click)="delete()">
+                <i class="fas fa-trash-alt"></i>
+                Delete
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

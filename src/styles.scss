@@ -1,0 +1,8 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+.label-required::after {
+  display: inline-block;
+  content: '*';
+  color: #BE3A2B;
+}
