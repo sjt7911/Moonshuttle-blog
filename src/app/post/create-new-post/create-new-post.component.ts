@@ -3,6 +3,7 @@ import { PostService } from '../shared/post.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostModel as Post} from '../shared/post.model';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-new-post',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 
 export class CreateNewPostComponent implements OnInit, OnDestroy {
   addNewPostForm: FormGroup;
+  numberObsSubscription: Subscription = new Subscription();
 
   /**
    * Create Instance to model
@@ -44,16 +46,20 @@ export class CreateNewPostComponent implements OnInit, OnDestroy {
     this.post.text = this.addNewPostForm.get('text').value;
     this.post.createdAt = new Date();
 
-    this.postService.create(this.post)
-      .subscribe(
-        (response) => {
-        },
-        (error) => {},
-        () => {
-          this.router.navigate(['/']);
-        }
-      );
+    this.numberObsSubscription.add(
+      this.postService.create(this.post)
+        .subscribe(
+          (response) => {
+          },
+          (error) => {},
+          () => {
+            this.router.navigate(['/']);
+          }
+        )
+    );
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.numberObsSubscription.unsubscribe();
+  }
 }

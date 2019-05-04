@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostModel as Post} from '../shared/post.model';
 import { PostService } from '../shared/post.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post-list',
@@ -10,6 +11,7 @@ import { PostService } from '../shared/post.service';
 
 export class PostListComponent implements OnInit, OnDestroy {
   posts: Array<Post> = new Array<Post>();
+  numberObsSubscription: Subscription = new Subscription();
 
   constructor(private router: Router,
               private postService: PostService) {}
@@ -22,7 +24,8 @@ export class PostListComponent implements OnInit, OnDestroy {
    * Get Array of the Posts
    */
   getPostList(): void {
-    this.postService.getList()
+    this.numberObsSubscription.add(
+      this.postService.getList()
       .subscribe(
         (response) => {
           for (const responseKey in response) {
@@ -35,7 +38,8 @@ export class PostListComponent implements OnInit, OnDestroy {
         },
         () => {
         }
-      );
+      )
+    );
   }
 
   /**
@@ -44,5 +48,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   delete() {
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.numberObsSubscription.unsubscribe();
+  }
 }
