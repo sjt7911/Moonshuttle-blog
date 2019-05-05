@@ -1,5 +1,5 @@
 export class PostModel {
-  id: number;
+  id: any;
   title: string;
   text: string;
   createdAt: any;

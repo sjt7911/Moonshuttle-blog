@@ -7,11 +7,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EditPostComponent } from './edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
     PostListComponent,
-    CreateNewPostComponent
+    CreateNewPostComponent,
+    EditPostComponent
   ],
   imports: [
     BrowserModule,

@@ -1,18 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostService } from '../shared/post.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostModel as Post} from '../shared/post.model';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-new-post',
   templateUrl: 'create-new-post.component.html'
 })
 
-export class CreateNewPostComponent implements OnInit, OnDestroy {
+export class CreateNewPostComponent implements OnInit {
   addNewPostForm: FormGroup;
-  numberObsSubscription: Subscription = new Subscription();
 
   /**
    * Create Instance to model
@@ -20,8 +17,7 @@ export class CreateNewPostComponent implements OnInit, OnDestroy {
   post: Post = new Post();
 
   constructor(private postService: PostService,
-              private fb: FormBuilder,
-              private router: Router
+              private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -44,22 +40,7 @@ export class CreateNewPostComponent implements OnInit, OnDestroy {
   onSubmitForm(): void {
     this.post.title = this.addNewPostForm.get('title').value;
     this.post.text = this.addNewPostForm.get('text').value;
-    this.post.createdAt = new Date();
 
-    this.numberObsSubscription.add(
-      this.postService.create(this.post)
-        .subscribe(
-          (response) => {
-          },
-          (error) => {},
-          () => {
-            this.router.navigate(['/']);
-          }
-        )
-    );
-  }
-
-  ngOnDestroy() {
-    this.numberObsSubscription.unsubscribe();
+    this.postService.create(this.post);
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PostModel as Post} from '../shared/post.model';
 import { PostService } from '../shared/post.service';
 import { Subscription } from 'rxjs';
 
@@ -10,42 +9,40 @@ import { Subscription } from 'rxjs';
 })
 
 export class PostListComponent implements OnInit, OnDestroy {
-  posts: Array<Post> = new Array<Post>();
+  posts = [];
   numberObsSubscription: Subscription = new Subscription();
 
   constructor(private router: Router,
               private postService: PostService) {}
 
   ngOnInit() {
-    this.getPostList();
+    this.getList();
   }
 
   /**
    * Get Array of the Posts
    */
-  getPostList(): void {
-    this.numberObsSubscription.add(
-      this.postService.getList()
-      .subscribe(
-        (response) => {
-          for (const responseKey in response) {
-            if (response.hasOwnProperty(responseKey)) {
-              this.posts.push(response[responseKey]);
-            }
-          }
-        },
-        (error) => {
-        },
-        () => {
-        }
-      )
+  getList(): void {
+    this.postService.getList()
+    .subscribe(
+      list => {
+        this.posts = list.map(item => {
+          return {
+            $key: item.key,
+            ...item.payload.val()
+          };
+        });
+      }
     );
   }
 
-  /**
-   * If I could get Id of item
-   */
-  delete() {
+  editPost(post: any): void {
+    this.postService.setSubject(post);
+    this.router.navigate([`/post/${post.$key}/edit`]);
+  }
+
+  deletePost(post: any): void {
+    this.postService.delete(post);
   }
 
   ngOnDestroy() {

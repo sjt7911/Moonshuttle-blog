@@ -3,18 +3,18 @@
     <div class="col">
       <div class="card">
         <div class="card-header">
-          Create Post
+          Update Post
         </div>
         <div class="card-body">
-          <form [formGroup]="addNewPostForm" id="ngForm">
+          <form [formGroup]="editForm" id="ngForm">
             <div class="form-group">
               <label for="addTitle" class="label-required">
                 Please add title
               </label>
               <input type="text"
                      id="addTitle"
-                     [ngClass]="!addNewPostForm.get('title').valid ? 'form-control is-invalid' : 'form-control is-valid'"
-                     placeholder="Title"
+                     [ngClass]="!editForm.get('title').valid ? 'form-control is-invalid' : 'form-control is-valid'"
+                     [(ngModel)]="post.title"
                      formControlName="title">
             </div>
 
@@ -24,10 +24,10 @@
               </label>
               <textarea
                 id="addText"
-                [ngClass]="!addNewPostForm.get('text').valid ? 'form-control is-invalid' : 'form-control is-valid'"
+                [ngClass]="!editForm.get('text').valid ? 'form-control is-invalid' : 'form-control is-valid'"
                 cols="30"
                 rows="10"
-                placeholder="Text"
+                [(ngModel)]="post.text"
                 formControlName="text"></textarea>
             </div>
           </form>
@@ -42,9 +42,9 @@
             <button type="button"
                     class="btn btn-primary"
                     form="ngForm"
-                    [disabled]="!addNewPostForm.valid"
+                    [disabled]="!editForm.valid"
                     (click)="onSubmitForm()">
-              Create
+              Update
             </button>
           </div>
         </div>

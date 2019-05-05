@@ -34,13 +34,14 @@
             <td>{{ post.title }}</td>
             <td>{{ post.text }}</td>
             <td>{{ post.createdAt }}</td>
-            <td>
-              <button class="btn btn-dark btn-sm mr-2">
+            <td class="text-nowrap">
+              <button class="btn btn-dark btn-sm mr-2"
+                      (click)="editPost(post)">
                 <i class="fas fa-edit"></i>
                 Edit
               </button>
               <button class="btn btn-danger btn-sm"
-                      (click)="delete()">
+                      (click)="deletePost(post)">
                 <i class="fas fa-trash-alt"></i>
                 Delete
               </button>

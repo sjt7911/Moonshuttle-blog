@@ -1,27 +1,53 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable()
 
 export class PostService {
-  constructor(private http: HttpClient) {}
+  postList: AngularFireList<any>;
+  private subject: Subject<any> = new Subject<any>();
 
-  /**
-   * Get Base API Url address
-   */
-  static getBaseUrl(): string {
-    const baseUrl = 'https://blog-angular-40873.firebaseio.com/posts.json';
-    return baseUrl;
+  constructor(private db: AngularFireDatabase, private router: Router) {
+    this.postList = this.db.list('posts');
+  }
+
+  setSubject(post: any) {
+    this.subject = post;
+  }
+
+  getSubject() {
+    return this.subject;
   }
 
   getList() {
-    return this.http.get(PostService.getBaseUrl());
+    this.postList = this.db.list('posts');
+    return this.postList.snapshotChanges();
   }
 
-  create(post: object) {
-    return this.http.post(PostService.getBaseUrl(), post);
+  create(post: any) {
+    const promise = this.postList.push({
+      title: post.title,
+      text: post.text,
+      createdAt: Date()
+    });
+
+    this.router.navigate(['/']);
   }
 
-  delete() {
+  update(postId: string, post: any) {
+    console.log(postId);
+    const promise = this.postList.update(postId, post);
+
+    this.router.navigate(['/']);
+  }
+
+  /**
+   * Delete Post
+   * @param post
+   */
+  delete(post: any) {
+    this.postList.remove(post.$key);
   }
 }
