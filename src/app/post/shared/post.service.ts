@@ -27,7 +27,7 @@ export class PostService {
   }
 
   create(post: any) {
-    const promise = this.postList.push({
+    this.postList.push({
       title: post.title,
       text: post.text,
       createdAt: Date()
@@ -37,9 +37,7 @@ export class PostService {
   }
 
   update(postId: string, post: any) {
-    console.log(postId);
-    const promise = this.postList.update(postId, post);
-
+    this.postList.update(postId, post);
     this.router.navigate(['/']);
   }
 

@@ -22,6 +22,7 @@ export class EditPostComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Get Id from Url
     this.postId = this.activateRoute.snapshot.paramMap.get('id');
 
     if (this.postId) {
@@ -47,8 +48,6 @@ export class EditPostComponent implements OnInit {
     this.post.title = this.editForm.get('title').value;
     this.post.text = this.editForm.get('text').value;
     this.post.id = this.postId;
-
-    console.log(this.editForm);
 
     this.postService.update(this.post.id, this.editForm.value);
   }
