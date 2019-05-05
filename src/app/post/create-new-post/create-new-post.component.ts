@@ -38,9 +38,6 @@ export class CreateNewPostComponent implements OnInit {
    * On Submit Add new post form
    */
   onSubmitForm(): void {
-    this.post.title = this.addNewPostForm.get('title').value;
-    this.post.text = this.addNewPostForm.get('text').value;
-
-    this.postService.create(this.post);
+    this.postService.create(this.addNewPostForm.value);
   }
 }

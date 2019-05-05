@@ -26,16 +26,18 @@ export class PostListComponent implements OnInit, OnDestroy {
    * Get Array of the Posts
    */
   getList(): void {
-    this.postService.getList()
-    .subscribe(
-      list => {
-        this.posts = list.map(item => {
-          return {
-            $key: item.key,
-            ...item.payload.val()
-          };
-        });
-      }
+    this.numberObsSubscription.add(
+      this.postService.getList()
+      .subscribe(
+        list => {
+          this.posts = list.map(item => {
+            return {
+              $key: item.key,
+              ...item.payload.val()
+            };
+          });
+        }
+      )
     );
   }
 

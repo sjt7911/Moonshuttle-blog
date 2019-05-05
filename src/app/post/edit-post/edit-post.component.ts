@@ -45,8 +45,6 @@ export class EditPostComponent implements OnInit {
    * Submit Edit Form
    */
   onSubmitForm(): void {
-    this.post.title = this.editForm.get('title').value;
-    this.post.text = this.editForm.get('text').value;
     this.post.id = this.postId;
 
     this.postService.update(this.post.id, this.editForm.value);
