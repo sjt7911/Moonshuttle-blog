@@ -1,4 +1,12 @@
 <div class="container">
+  <div *ngIf="showDeleteItemAlert" class="row">
+    <div class="col">
+      <div class="alert alert-success">
+        The post was delete successful!
+      </div>
+    </div>
+  </div>
+
   <div class="row mb-3">
     <div class="col text-right">
       <button class="btn btn-primary" routerLink="create-new-post">

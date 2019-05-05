@@ -11,9 +11,12 @@ import { Subscription } from 'rxjs';
 export class PostListComponent implements OnInit, OnDestroy {
   posts = [];
   numberObsSubscription: Subscription = new Subscription();
+  showDeleteItemAlert: boolean;
 
   constructor(private router: Router,
-              private postService: PostService) {}
+              private postService: PostService) {
+    this.showDeleteItemAlert = false;
+  }
 
   ngOnInit() {
     this.getList();
@@ -43,6 +46,9 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   deletePost(post: any): void {
     this.postService.delete(post);
+    this.showDeleteItemAlert = true;
+
+    setTimeout(() => this.showDeleteItemAlert = false, 3000);
   }
 
   ngOnDestroy() {
